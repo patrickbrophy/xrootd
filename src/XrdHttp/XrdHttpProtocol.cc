@@ -64,6 +64,8 @@
 // It seems that eos needs this to be present
 const char *XrdHttpSecEntityTident = "http";
 
+int XrdHttpProtocol::numHttpRequests = 0;
+
 //
 // Static stuff
 //

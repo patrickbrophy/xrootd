@@ -83,6 +83,8 @@ class XrdHttpProtocol : public XrdProtocol {
   
 public:
 
+  static int numHttpRequests;
+
   /// Read and apply the configuration
   static int Configure(char *parms, XrdProtocol_Config *pi);
 

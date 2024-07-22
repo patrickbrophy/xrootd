@@ -56,6 +56,7 @@
 #include <string>
 #include "XrdOuc/XrdOucTUtils.hh"
 #include "XrdOuc/XrdOucUtils.hh"
+#include "XrdSys/XrdSysAtomics.hh"
 
 #include "XrdHttpUtils.hh"
 
@@ -498,6 +499,9 @@ bool XrdHttpReq::Done(XrdXrootd::Bridge::Context & info) {
   if (r) reset();
   if (r < 0) return false; 
   
+  AtomicInc(XrdHttpProtocol::numHttpRequests);
+  auto requests = AtomicGet(XrdHttpProtocol::numHttpRequests);
+  TRACE(REQ, " XrdHttpReq::numHttpRequests: " << requests)
   
   return true;
 };
