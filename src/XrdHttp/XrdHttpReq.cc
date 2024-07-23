@@ -500,7 +500,7 @@ bool XrdHttpReq::Done(XrdXrootd::Bridge::Context & info) {
   if (r < 0) return false; 
   
   AtomicInc(XrdHttpProtocol::numHttpRequests);
-  auto requests = AtomicGet(XrdHttpProtocol::numHttpRequests);
+  int requests = AtomicGet(XrdHttpProtocol::numHttpRequests);
   TRACE(REQ, " XrdHttpReq::numHttpRequests: " << requests)
   
   return true;
@@ -512,6 +512,9 @@ bool XrdHttpReq::Error(XrdXrootd::Bridge::Context &info, //!< the result context
         ) {
 
   TRACE(REQ, " XrdHttpReq::Error");
+  AtomicInc(XrdHttpProtocol::numHttpRequests);
+  int requests = AtomicGet(XrdHttpProtocol::numHttpRequests);
+  TRACE(REQ, " XrdHttpReq::numHttpRequests: " << requests)
 
   xrdresp = kXR_error;
   xrderrcode = (XErrorCode) ecode;
