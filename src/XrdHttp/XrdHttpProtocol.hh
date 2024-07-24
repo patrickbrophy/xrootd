@@ -107,7 +107,7 @@ public:
   void Recycle(XrdLink *lp, int consec, const char *reason);
 
   /// Get activity stats
-  int Stats(char *buff, int blen, int do_sync = 0);
+  virtual int Stats(char *buff, int blen, int do_sync = 0);
 
 
 

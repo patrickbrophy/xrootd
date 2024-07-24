@@ -39,6 +39,7 @@
 #include "XrdHttpUtils.hh"
 #include "XrdHttpSecXtractor.hh"
 #include "XrdHttpExtHandler.hh"
+#include "XrdSys/XrdSysAtomics.hh"
 
 #include "XrdTls/XrdTls.hh"
 #include "XrdTls/XrdTlsContext.hh"
@@ -936,6 +937,12 @@ void XrdHttpProtocol::Recycle(XrdLink *lp, int csec, const char *reason) {
 }
 
 int XrdHttpProtocol::Stats(char *buff, int blen, int do_sync) {
+    static const char statfmt[] = "<stats id=\"http\">"
+                                  "<reqs>%d</reqs>"
+                                  "</stats>";
+
+    int requests = AtomicGet(numHttpRequests);
+    return snprintf(buff, blen, statfmt, requests);
   // Synchronize statistics if need be
   //
   //  if (do_sync) {
@@ -963,7 +970,7 @@ int XrdHttpProtocol::Stats(char *buff, int blen, int do_sync) {
   //  //
   //  return SI->Stats(buff, blen, do_sync);
 
-  return 0;
+//  return 0;
 }
 
 /******************************************************************************/
